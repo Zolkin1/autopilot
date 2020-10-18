@@ -10,12 +10,14 @@
 #include "controller.h"     // Controller thread
 #include "stateEstimation.h"    // State Estimation thread
 
+namespace logging
+{
+    // In theory the buffered serial class is thread safe, so I shoudln't need a mutex for the logger
+    Logger logger;      // Global variable
+}
 
-Logger logger;      // Global variable
-
-
-Thread controller;
-Thread stateEstimation;
+Thread controller(osPriorityRealtime);
+Thread stateEstimation(osPriorityHigh);
 
 int main()
 {   

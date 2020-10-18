@@ -34,3 +34,6 @@
 */BUILD
 BUILD/
 eigen*
+Eigen
+
+*.swp
