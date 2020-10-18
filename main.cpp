@@ -5,29 +5,20 @@
 
 #include "mbed.h"
 #include <string>
+
 #include "log.h"
+#include "controller.h"     // Controller thread
+#include "stateEstimation.h"    // State Estimation thread
 
-// Blinking rate in milliseconds
-#define BLINKING_RATE       1000//ms
 
-namespace logging
-{
-    Logger logger;
-}
+Logger logger;      // Global variable
+
+
+Thread controller;
+Thread stateEstimation;
 
 int main()
-{
-    // Initialise the digital pin LED1 as an output
-    DigitalOut led(LED1);
-    int a = 1;
-    
-    while (true) 
-    {
-        led = !led;
-        ThisThread::sleep_for(BLINKING_RATE);
-        std::string message = "Hello";
-        logging::logger.log(message, "TYPE");
-        a++;
-    }
-
+{   
+    stateEstimation.start(callback(stateEstimationThread));
+    controller.start(callback(controllerThread));
 }
